@@ -21,4 +21,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <feature name="MaleficusJSBridgePlugin">
+        <param name="android-package" value="com.maleficus.hybrid.plugins.MaleficusJSBridgePlugin" />
+    </feature>
 </widget>
