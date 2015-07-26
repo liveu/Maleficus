@@ -19,16 +19,37 @@
 
 package com.maleficus.hybrid;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import com.maleficus.hybrid.module.maleficus_mqtt.Maleficus_MqttConnector;
 import org.apache.cordova.*;
 
 public class MainActivity extends CordovaActivity
 {
+    private final static String TAG_main = "sh_main";
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        Log.v(TAG_main, "onCreate()11111111111111111111");
         super.onCreate(savedInstanceState);
+//        Intent intent = new Intent(this.getBaseContext(),Maleficus_MqttConnector.class);
+        Log.v(TAG_main, "mqttServiceStart111111111111111111111");
+//        this.startService(intent);
         // Set by <content src="index.html" /> in config.xml
+        Intent intent = new Intent("com.maleficus.hybrid.module.maleficus_mqtt.Maleficus_MqttConnector");
+        startService(intent);
         loadUrl(launchUrl);
+
+    }
+
+    public void mqttServiceStart(){
+        Log.v(TAG_main, "mqttServiceStart011111111111111111111");
+//        Intent intent = new Intent("com.maleficus.hybrid.module.maleficus_mqtt.Maleficus_MqttConnector");
+//        startService(intent);
+//        Intent intent = new Intent(this.getBaseContext(),Maleficus_MqttConnector.class);
+        Log.v(TAG_main, "mqttServiceStart111111111111111111111");
+//        this.startService(intent);
+        Log.v(TAG_main, "mqttServiceStart211111111111111111111");
     }
 }

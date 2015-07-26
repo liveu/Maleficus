@@ -11,6 +11,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".module.maleficus_mqtt.Maleficus_MqttConnector">
+            <intent-filter>
+                <action android:name="com.maleficus.hybrid.module.maleficus_mqtt.Maleficus_MqttConnector"/>
+            </intent-filter>
+        </service>
     </application>
-    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="22" />
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="22" />
 </manifest>
