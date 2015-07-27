@@ -11,9 +11,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".module.maleficus_mqtt.Maleficus_MqttConnector">
+        <service android:name=".module.maleficus_mqtt.Maleficus_MqttService">
             <intent-filter>
-                <action android:name="com.maleficus.hybrid.module.maleficus_mqtt.Maleficus_MqttConnector"/>
+                <action android:name="com.maleficus.hybrid.module.maleficus_mqtt.Maleficus_MqttService"/>
             </intent-filter>
         </service>
     </application>

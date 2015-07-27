@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.Parcelable;
@@ -18,11 +17,11 @@ import java.util.List;
 /**
  * Created by shchoi on 2015-07-26.
  */
-public class Maleficus_MqttConnector extends Service implements MqttPushEventListener {
+public class Maleficus_MqttService extends Service implements MqttPushEventListener {
 
-    private String TAG_CON = "sh_con";
+    private static String TAG_CON = "sh_con";
     private static final int NOTIFICATION_ID = 0X212;
-    private MqttAndroidClient mqttClient;
+    public static MqttAndroidClient mqttClient;
     public static final String ACTION_PUSH_ARRIVED = "action_push_arrived";
     public static final String ACTION_STATE_CHANGED = "action_state_changed";
     public static final String ACTION_CLIEND_ID = "action_client_id";
@@ -36,6 +35,15 @@ public class Maleficus_MqttConnector extends Service implements MqttPushEventLis
 
     private boolean connected;
 
+//    //컴포넌트에 반환되는 IBinder
+//    private final IBinder mBinder = new LocalBinder();
+//
+//    //컴포넌트에 반환해줄 IBinder 클래스
+//    public class LocalBinder extends Binder{
+//        public Maleficus_MqttConnector getService(){
+//            return Maleficus_MqttConnector.this;
+//        }
+//    }
 
     //call from Bridgeplugin certification method
     public void Maleficus_MqttConnector_test(){
@@ -43,23 +51,28 @@ public class Maleficus_MqttConnector extends Service implements MqttPushEventLis
     }
 
 
-    //call this method when service is started
-//    @Override
-//    public int onStartCommand(Intent intent, int flags, int startId) {
-//        Log.v(TAG_CON, "Maleficus_MqttConnector_onStartCommand333333333333333333");
+    //    @Override
+//    public IBinder onBind(Intent intent) {
+//        Log.v(TAG_CON, "onBindd333333333333333333");
+//        return mBinder;
+//    }
+
+//    public void mqttConnect(){
+//        Log.v(TAG_CON, "mqttConnect33333333333333");
 //        mqttClient = new MqttAndroidClient(this, HOST);
 //        mqttClient.addPushListener(this);
 //        mqttClient.setCleanOnStart(true);
 //        mqttClient.bind(new MqttTopic("kalana", 2));
 //        mqttClient.start();
-//        return START_REDELIVER_INTENT;
+//        connected = true;
+//        Log.v(TAG_CON, "mqttConnect33333333333333");
 //    }
 
-
+    /**MQTT CONNECTION METHOD*/
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.v(TAG_CON, "Maleficus_MqttConnector_onStartCommand333333333333333333");
         if(connected == false) {
-            Log.v(TAG_CON, "Maleficus_MqttConnector_onStartCommand333333333333333333");
             mqttClient = new MqttAndroidClient(this, HOST);
             mqttClient.addPushListener(this);
             mqttClient.setCleanOnStart(true);
@@ -70,6 +83,19 @@ public class Maleficus_MqttConnector extends Service implements MqttPushEventLis
 
         }
         return START_REDELIVER_INTENT;
+    }
+
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return new Male_binder<Service>(this);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mqttClient.disconnect();
     }
 
     @Override
@@ -96,20 +122,6 @@ public class Maleficus_MqttConnector extends Service implements MqttPushEventLis
         nm.notify(NOTIFICATION_ID + 1, notification);
     }
 
-    @Override
-    public void onConnectionStateChanged(MqttClientState connectionState) {
-        if(connected == false) {
-            Log.v(TAG_CON, "onConnectionStateChanged333333333333333333");
-            connected = connectionState == MqttClientState.CONNECTED;
-            Intent broadcastIntent = new Intent(ACTION_STATE_CHANGED);
-            broadcastIntent.putExtra(KEY_STATE, connectionState);
-            sendBroadcast(broadcastIntent);
-            showClientStateAsNotification(connectionState);
-        }else if(connected){
-
-        }
-    }
-
     private void showClientStateAsNotification(MqttClientState clientState) {
         if(connected == false) {
             Log.v(TAG_CON, "showClientStateAsNotification333333333333333333");
@@ -127,8 +139,22 @@ public class Maleficus_MqttConnector extends Service implements MqttPushEventLis
         }else if(connected){
 
         }
+    }
 
 
+
+    @Override
+    public void onConnectionStateChanged(MqttClientState connectionState) {
+        if(connected == false) {
+            Log.v(TAG_CON, "onConnectionStateChanged333333333333333333");
+            connected = connectionState == MqttClientState.CONNECTED;
+            Intent broadcastIntent = new Intent(ACTION_STATE_CHANGED);
+            broadcastIntent.putExtra(KEY_STATE, connectionState);
+            sendBroadcast(broadcastIntent);
+            showClientStateAsNotification(connectionState);
+        }else if(connected){
+
+        }
     }
 
 
@@ -140,7 +166,7 @@ public class Maleficus_MqttConnector extends Service implements MqttPushEventLis
         sendBroadcast(broadcastIntent);
     }
 
-    public void subscribeToTopic(MqttTopic mqttTopic) {
+    public static void subscribeToTopic(MqttTopic mqttTopic) {
         Log.v(TAG_CON, "subscribeToTopic333333333333333333");
         mqttClient.bind(mqttTopic);
 
@@ -151,7 +177,7 @@ public class Maleficus_MqttConnector extends Service implements MqttPushEventLis
         return mqttClient.getIdClient();
     }
 
-    public void publish(MqttMessage mqttMessage, MqttTopic topic) {
+    public static void publish(MqttMessage mqttMessage, MqttTopic topic) {
         Log.v(TAG_CON, "publish333333333333333333");
         mqttClient.push(mqttMessage, topic);
 
@@ -168,9 +194,5 @@ public class Maleficus_MqttConnector extends Service implements MqttPushEventLis
         sendGeneratedClientId(clienIds);
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        Log.v(TAG_CON, "onBindd333333333333333333");
-        return new Male_binder<Service>(this);
-    }
+
 }
