@@ -18,23 +18,36 @@
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/Maleficus_mqttService.js"></script>
 
 
     <script type="text/javascript">
-
         app.initialize();
 
-
         function showToast(){
-            var textValue = "maleficus_mqttConnect";
-            var data = ["6666666666666666666666"];
-            MaleficusJSBridgePlugin.bridgeAction(textValue, data);
-            location.href = "tabIndex.html";
+            //Get
+//            var bla = $('#txt_name').val();
+//
+//            //Set
+//            $('#txt_name').val('bla');
+            var user_id = $("#user_id").val(),
+                user_pass = $("#user_pass").val()
+                arg = [];
+            arg[0] = user_id;
+            arg[1] = user_pass;
+            arg[2] = device.uuid;
+            alert(arg[2]);
+            Maleficus_mqttService.mqttConnect();
         }
+
+
 
         function onDeviceReady() {
-            // console.log("Device ready");
+             console.log("Device ready");
         }
+
+
+
         document.addEventListener("deviceready", onDeviceReady, false);
     </script>
 </head>
@@ -49,8 +62,8 @@
             <div class="account-wall"  >
                 <img class="profile-img" src="img/loginlogo2.png" alt="" style="margin-bottom : 20px; width: 250px; height: 250px; display: block; margin-left: auto; margin-right: auto;">
                 <form class="form-signin">
-                    <input type="text" class="form-control" placeholder="Email" required autofocus>
-                    <input type="password" class="form-control" placeholder="Password" required>
+                    <input type="text" class="form-control" placeholder="Email" id="user_id" required autofocus>
+                    <input type="password" class="form-control" placeholder="Password" id="user_pass" required>
                     <button class="btn btn-lg btn-primary btn-block" type="button" onclick="showToast()">
                         Sign in</button>
                     <label class="checkbox pull-left">

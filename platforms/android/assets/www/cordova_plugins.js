@@ -11,13 +11,21 @@ module.exports = [
         "clobbers": [
             "MaleficusJSBridgePlugin"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-device/www/device.js",
+        "id": "cordova-plugin-device.device",
+        "clobbers": [
+            "device"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "cordova-plugin-whitelist": "1.0.0",
-    "com.maleficus.hybrid.MaleficusJSBridgePlugin": "0.2.11"
+    "com.maleficus.hybrid.MaleficusJSBridgePlugin": "0.2.11",
+    "cordova-plugin-device": "1.0.1"
 }
 // BOTTOM OF METADATA
 });

@@ -1,6 +1,7 @@
 package com.maleficus.hybrid;
 
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import com.maleficus.hybrid.module.maleficus_mqtt.Maleficus_MqttService;
 import com.maleficus.hybrid.module.maleficus_mqtt.Maleficus_MqttServiceConnector;
+import com.maleficus.hybrid.plugins.MaleficusJSBridgePlugin;
 import org.apache.cordova.*;
 import org.json.JSONArray;
 import org.sidibe.mqtt.android.lib.MqttMessage;
@@ -21,15 +23,31 @@ public class MainActivity extends CordovaActivity
     public static Maleficus_MqttServiceConnector serviceConnector;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        MaleficusJSBridgePlugin mPlugin = new MaleficusJSBridgePlugin();
+        mPlugin.show(this);
         Log.v(TAG_main, "onCreate()11111111111111111111");
         super.onCreate(savedInstanceState);
         Intent intent = new Intent("com.maleficus.hybrid.module.maleficus_mqtt.Maleficus_MqttService");
-//        Intent intent = new Intent(this.getApplicationContext(),Maleficus_MqttConnector.class);
-        Log.v(TAG_main, "mqttServiceStart111111111111111111111");
-        startService(intent);
         loadUrl(launchUrl);
+    }
+
+
+    public void mqttConnect(){
+        //인증 클래스를 외부로 빼기
+        Boolean certified = false;
+
+
+        if(certified){
+            Log.v(TAG_main, "mqttConnect111111111111111111111");
+            Intent intent = new Intent("com.maleficus.hybrid.module.maleficus_mqtt.Maleficus_MqttService");
+            startService(intent);
+        }else{
+            Log.v(TAG_main, "not certified");
+        }
+
     }
 
 

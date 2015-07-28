@@ -15,6 +15,10 @@
                         {
                             "xml": "<feature name=\"MaleficusJSBridgePlugin\"><param name=\"android-package\" value=\"com.maleficus.hybrid.plugins.MaleficusJSBridgePlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -26,6 +30,9 @@
             "PACKAGE_NAME": "com.maleficus.hybrid"
         },
         "com.maleficus.hybrid.MaleficusJSBridgePlugin": {
+            "PACKAGE_NAME": "com.maleficus.hybrid"
+        },
+        "cordova-plugin-device": {
             "PACKAGE_NAME": "com.maleficus.hybrid"
         }
     },

@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.maleficus.hybrid" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
-    <!--<preference name="keepRunning" value="true" />-->
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
@@ -24,5 +23,8 @@
     <allow-intent href="geo:*" />
     <feature name="MaleficusJSBridgePlugin">
         <param name="android-package" value="com.maleficus.hybrid.plugins.MaleficusJSBridgePlugin" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
 </widget>
